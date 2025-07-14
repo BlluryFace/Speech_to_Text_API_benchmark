@@ -1,21 +1,20 @@
 import requests
 import os
+from elevenlabs import ElevenLabs
 
+from dotenv import load_dotenv
+load_dotenv()
 class ElevenLabsTranscriber:
     def __init__(self):
-        self.api_key = os.getenv("ELEVEN_API_KEY")
-        self.endpoint = "https://api.elevenlabs.io/v1/speech-to-text"
+        self.client = ElevenLabs(api_key=os.getenv("ELEVEN_KEY"))
 
     def transcribe(self, audio_path: str) -> str:
         try:
             with open(audio_path, "rb") as f:
-                response = requests.post(
-                    self.endpoint,
-                    headers={"xi-api-key": self.api_key},
-                    files={"audio": f}
-                )
-            response.raise_for_status()
-            return response.json().get("text", "[No transcription]")
+                response = self.client.speech_to_text.convert(
+                    model_id="scribe_v1",
+                    file=f)
+            return response.text
         except Exception as e:
             print(f"[ElevenLabs Error] {e}")
             return "[ElevenLabs transcription failed]"

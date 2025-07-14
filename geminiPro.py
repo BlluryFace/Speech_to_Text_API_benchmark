@@ -1,14 +1,23 @@
-import google.generativeai as genai
+import os
+from google import genai
+from dotenv import load_dotenv
+load_dotenv()
 
 class GeminiProTranscriber:
-    def __init__(self, api_key=None):
-        genai.configure(api_key=api_key)
-        self.model = genai.GenerativeModel("models/gemini-1.5-pro-latest")
+    def __init__(self):
+        self.client = genai.Client(api_key=os.getenv("GEMINI_KEY"))
 
     def transcribe(self, audio_path: str) -> str:
         try:
             with open(audio_path, "rb") as audio_file:
-                response = self.model.generate_content(audio_file)
+                myfile = self.client.files.upload(file=audio_path)
+
+                response = self.client.models.generate_content(
+                    model="gemini-2.5-pro",
+                    contents=["Transcribe this audio clip, do not include any"
+                              "thing else except the content of the audio",
+                              myfile]
+                )
             return response.text
         except Exception as e:
             print(f"[Gemini Pro Error] {e}")

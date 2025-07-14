@@ -1,4 +1,5 @@
 import sys
+import os
 
 from openAI import OpenAITranscriber
 from geminiPro import GeminiProTranscriber
@@ -11,11 +12,13 @@ def run_all_transcribers(audio_path: str):
 
     transcribers = [
         ("OpenAI GPT-4o", OpenAITranscriber()),
-        ("Gemini 2.5 Pro", GeminiProTranscriber(api_key="your-gemini-api-key")),
-        ("Gemini 2.5 Flash", GeminiFlashTranscriber(api_key="your-gemini-api-key")),
+        ("Gemini 2.5 Pro", GeminiProTranscriber()),
+        ("Gemini 2.5 Flash", GeminiFlashTranscriber()),
         ("ElevenLabs", ElevenLabsTranscriber()),
         ("AssemblyAI", AssemblyAITranscriber())
     ]
+
+    base_filename = os.path.splitext(os.path.basename(audio_path))[0]
 
     for name, transcriber in transcribers:
         print(f"{name}:")
@@ -23,7 +26,16 @@ def run_all_transcribers(audio_path: str):
             result = transcriber.transcribe(audio_path)
         except Exception as e:
             result = f"[ERROR] {e}"
-        print(result)
+
+        # Save to file
+        folder_path = os.path.join("transcriptions", name.replace(" ", "_"))
+        os.makedirs(folder_path, exist_ok=True)
+
+        output_path = os.path.join(folder_path, f"{base_filename}_transcription.txt")
+        with open(output_path, "w", encoding="utf-8") as f:
+            f.write(result)
+
+        print(f"Saved transcription to: {output_path}")
         print("-" * 50)
 
 if __name__ == "__main__":

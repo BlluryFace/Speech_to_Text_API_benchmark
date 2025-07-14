@@ -2,9 +2,12 @@ import requests
 import time
 import os
 
+from dotenv import load_dotenv
+load_dotenv()
+
 class AssemblyAITranscriber:
     def __init__(self):
-        self.api_key = os.getenv("ASSEMBLYAI_API_KEY")
+        self.api_key = os.getenv("ASSEMBLYAI_KEY")
         self.upload_url = "https://api.assemblyai.com/v2/upload"
         self.transcript_url = "https://api.assemblyai.com/v2/transcript"
 

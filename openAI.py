@@ -1,36 +1,20 @@
-import openai
 import os
 
+import openai
+from dotenv import load_dotenv
+load_dotenv()
 class OpenAITranscriber:
     def __init__(self):
-        self.client = openai.OpenAI()
+        self.client = openai.OpenAI(api_key=os.getenv("OPENAI_KEY"))
 
     def transcribe(self, audio_path: str) -> str:
         try:
             with open(audio_path, "rb") as audio_file:
-                response = self.client.chat.completions.create(
-                    model="gpt-4o",
-                    messages=[
-                        {
-                            "role": "system",
-                            "content": "You are a transcription assistant. Transcribe the following audio to plain text."
-                        },
-                        {
-                            "role": "user",
-                            "content": [
-                                {
-                                    "type": "text",
-                                    "text": "Here is the audio I want you to transcribe."
-                                },
-                                {
-                                    "type": "audio",
-                                    "audio": audio_file
-                                }
-                            ]
-                        }
-                    ]
+                transcription = self.client.audio.transcriptions.create(
+                    model="gpt-4o-transcribe",
+                    file=audio_file
                 )
-            return response.choices[0].message.content
+            return transcription.text
         except Exception as e:
             print(f"[OpenAI GPT-4o Error] {e}")
             return "[OpenAI GPT-4o transcription failed]"
