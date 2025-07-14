@@ -73,3 +73,7 @@ ElevenLabs, AssemblyAI
 - **Evaluation Tools**: Python scripts for WER analysis 
 
 ---
+
+## Result
+
+![img.png](img.png)
