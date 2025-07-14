@@ -17,4 +17,4 @@ class OpenAITranscriber:
             return transcription.text
         except Exception as e:
             print(f"[OpenAI GPT-4o Error] {e}")
-            return "[OpenAI GPT-4o transcription failed]"
+            return f"[OpenAI GPT-4o transcription failed] {e}"

@@ -21,4 +21,4 @@ class GeminiProTranscriber:
             return response.text
         except Exception as e:
             print(f"[Gemini Pro Error] {e}")
-            return "[Gemini Pro transcription failed]"
+            return f"[Gemini Pro transcription failed] {e}"

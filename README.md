@@ -58,7 +58,7 @@ have no overlapping cause slugs.
  
 * **Benchmarking**
 The recording will be transcribed through 5 API Transcription providers to 
-produce text result. Removing the word dot or '.' in the transcription text and 
+produce text result. Removing the word dot and all punctuations in the transcription text and 
 then calculating the WER against expected text. Record the result the 5 runs  
 and then plot the result on a box plot
 

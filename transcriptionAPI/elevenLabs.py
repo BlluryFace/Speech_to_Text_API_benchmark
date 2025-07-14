@@ -17,4 +17,4 @@ class ElevenLabsTranscriber:
             return response.text
         except Exception as e:
             print(f"[ElevenLabs Error] {e}")
-            return "[ElevenLabs transcription failed]"
+            return f"[ElevenLabs transcription failed] {e}"

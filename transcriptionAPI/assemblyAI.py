@@ -48,4 +48,4 @@ class AssemblyAITranscriber:
                 time.sleep(2)
         except Exception as e:
             print(f"[AssemblyAI Error] {e}")
-            return "[AssemblyAI transcription failed]"
+            return f"[AssemblyAI transcription failed]: {e}"

@@ -21,4 +21,4 @@ class GeminiFlashTranscriber:
             return response.text
         except Exception as e:
             print(f"[Gemini Flash Error] {e}")
-            return "[Gemini Flash transcription failed]"
+            return f"[Gemini Flash transcription failed] {e}"
